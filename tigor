@@ -1,0 +1,17 @@
+#!/bin/bash
+
+mkdir -p temp
+cd temp
+echo $1 > equation.tex
+cat ../templates/header.tex equation.tex ../templates/footer.tex > master.tex
+cp ../templates/.latexmkrc ./
+
+latexmk master.tex
+
+pdfcrop --margins "10 8 10 8" master.pdf master_croped.pdf
+pdftocairo -png master_croped.pdf master
+
+cp master-1.png ../master.png
+rm ./* -r
+rm ./.latexmkrc
+
